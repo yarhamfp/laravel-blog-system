@@ -62,12 +62,17 @@
                           <td>
                             <a href="{{route('category.edit',$item->id)}}" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="edit"></i></a>
                             {{-- <a href="{{route('category.edit',$item->id)}}" class="btn btn-primary btn-icon"><i class="fa fa-pencil-alt"></i></a> --}}
-                            <button class="btn btn-datatable btn-icon btn-transparent-dark" type="button" data-toggle="modal" data-target="#exampleModalCenter"><i data-feather="trash-2"></i></button>
+                            <form action="{{route('category.destroy',$item->id)}}" method="POST" class="d-inline">
+                              @csrf
+                              @method('delete')
+                              <button type="submit" class="btn btn-datatable btn-icon btn-transparent-dark" onclick="return confirm('Yakin ingin hapus data ini?')"><i data-feather="trash-2"></i>
+                              </button>
+                              </form>
                           </td>
                         </tr>
                         @empty
                           <tr>
-                            <td colspan="4" class="text-center">Data Category Kosong</td>
+                            <td colspan="6" class="text-center">Data Category Kosong</td>
                           </tr>
                         @endforelse
                     </tbody>
@@ -79,27 +84,6 @@
   </div>
 </div>
 
-{{-- Modal --}}
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalCenterTitle">Pemberitahuan!</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-          </div>
-          <div class="modal-body">Apakah anda yakin ingin menghapus Category <span class="badge badge-primary">{{$item->name}}</span> ? <br> <span class="text-danger">Data yang sudah dihapus tidak dapat dikembalikan.</span></div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Tidak, Tolong Kembali</button>
-            <form action="{{route('category.destroy',$item->id)}}" method="POST" class="d-inline">
-              @csrf
-              @method('delete')
-              <button type="submit" class="btn btn-primary">Ya, saya yakin
-              </button>
-            </form>
-          </div>
-      </div>
-  </div>
-</div>
 @endsection
 
 @push('prepend-style')
