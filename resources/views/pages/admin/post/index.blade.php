@@ -12,8 +12,12 @@
               </div>
               <span>All Posts</span>
           </h1>
-          <div class="page-header-subtitle">Keseluruhan data post adalah <strong> {{$item->count()}}</strong>
+          <div class="page-header-subtitle">Keseluruhan data post
           </div>
+          <ol class="breadcrumb mt-4 mb-0">
+            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Post</li>
+          </ol>
       </div>
   </div>
 </div>
@@ -32,9 +36,10 @@
                 <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>No</th>
                             <th>Title</th>
                             <th>Author</th>
+                            <th>Role Author</th>
                             <th>Views</th>
                             <th>Is Approved</th>
                             <th>Status</th>
@@ -45,9 +50,10 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
+                            <th>No</th>
                             <th>Title</th>
                             <th>Author</th>
+                            <th>Role Author</th>
                             <th>Views</th>
                             <th>Is Approved</th>
                             <th>Status</th>
@@ -57,11 +63,12 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @forelse ($item as $item)
+                        @forelse ($item as $key=>$item)
                         <tr>
-                          <td>{{$item->id}}</td>
+                          <td>{{$key+1}}</td>
                           <td>{{Str::limit($item->title,'10')}}</td>
                           <td>{{Str::limit($item->users->name,'15')}}</td>
+                          <td>{{$item->users->roles->name}}</td>
                           <td>{{$item->view_count}}</td>
                           <td>
                             @if ($item->is_approved == true)

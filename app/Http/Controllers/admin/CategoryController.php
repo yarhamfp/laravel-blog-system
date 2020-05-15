@@ -73,7 +73,7 @@ class CategoryController extends Controller
             $slider = Image::make($image)->resize(500, 333)->save(90);
             Storage::disk('public')->put('category/slider/' . $imagename, $slider);
         } else {
-            $imagename = "default.png";
+            $imagename = "default.jpg";
         }
 
         $category = new Category();

@@ -12,8 +12,12 @@
               </div>
               <span>Create Post</span>
           </h1>
-          <div class="page-header-subtitle">Membuat post baru
-          </div>
+          <div class="page-header-subtitle">Membuat post baru</div>
+          <ol class="breadcrumb mt-4 mb-0">
+            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="{{route('post.index')}}">Post</a></li>
+            <li class="breadcrumb-item active">Create Post</li>
+          </ol>
       </div>
   </div>
 </div>
@@ -36,7 +40,7 @@
                       @endif
                     </div>
                     <div class="form-group ">
-                      <label for="image">Image Post *</label>
+                      <label for="image">Image Post *</label> <span class="text-muted" style="font-size:12px;">(ukuran gambar akan auto crop jadi 1600 x 1066)</span>
                       <input class="form-control shadow-right {{$errors->has('image') ? ' border-danger' : ''}}" id="image" name="image" type="file">
                       @if ($errors->has('image'))
                         <span class="text-danger">{{$errors->first('image')}}</span>
@@ -57,31 +61,19 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <div class="card card-header-actions mb-4">
-          <div class="card-header">Categories And Tags
+          <div class="card-header">Categories
           </div>
           <div class="card-body" style="height: 400px;">
               <div class="sbp-preview">
                 <div class="sbp-preview-content">
                     <div class="form-group ">
-                      <label for="tag">Tag Post *</label>
-                      <select class="form-control selectpicker {{$errors->has('tags') ? ' is-invalid' : ''}}" name="tags[]" id="tag" data-size="5" data-live-search="true" data-dropup-auto="false" multiple>
-                        @foreach ($tags as $tag)
-                        <option value="{{$tag->id}}">{{$tag->name}}</option>
-                        @endforeach
-                      </select>
-                      @if ($errors->has('tags'))
-                      <span class="text-danger">{{$errors->first('tags')}}</span>
-                      @endif
+                      <a href="{{route('category.create')}}" class="btn btn-info">Create New Category</a>
                     </div>
-                    {{-- <div class="form-group">
-                      <label for="">Tag *</label>
-                      <input type="text" class="form-control">
-                    </div> --}}
                     <div class="form-group">
-                      <label for="category">Category Post *</label>
-                      <select class="form-control selectpicker dropup {{$errors->has('categories') ? ' is-invalid' : ''}}" name="categories[]" id="category" data-size="5" data-live-search="true" data-dropup-auto="false" multiple>
+                      <label for="category">Pilih Category *</label>
+                      <select class="form-control selectpicker {{$errors->has('categories') ? ' is-invalid' : ''}}" name="categories[]" id="category" data-size="5" data-live-search="true" multiple>
                         @foreach ($categories as $category)
                         <option value="{{$category->id}}">{{$category->name}}</option>
                         @endforeach
@@ -95,7 +87,35 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-8">
+      <div class="col-lg-6">
+        <div class="card card-header-actions mb-4">
+          <div class="card-header">Tags
+          </div>
+          <div class="card-body" style="height: 400px;">
+              <div class="sbp-preview">
+                <div class="sbp-preview-content">
+                  <div class="form-group">
+                    <a href="{{route('tag.create')}}" class="btn btn-info">Create New Tag</a>
+                  </div>
+                    <div class="form-group ">
+                      <label for="tag">Pilih Tag *</label>
+                      <select class="form-control selectpicker {{$errors->has('tags') ? ' is-invalid' : ''}}" name="tags[]" id="tag" data-size="5" data-live-search="true" multiple>
+                        @foreach ($tags as $tag)
+                        <option value="{{$tag->id}}">{{$tag->name}}</option>
+                        @endforeach
+                      </select>
+                      @if ($errors->has('tags'))
+                      <span class="text-danger">{{$errors->first('tags')}}</span>
+                      @endif
+                    </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
         <div class="card card-header-actions mb-4">
           <div class="card-header">Body Post
           </div>

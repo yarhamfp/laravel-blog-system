@@ -14,6 +14,11 @@
           </h1>
           <div class="page-header-subtitle">Edit post
           </div>
+          <ol class="breadcrumb mt-4 mb-0">
+            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active"><a href="{{route('post.index')}}">Post</a></li>
+            <li class="breadcrumb-item active">Edit Post</li>
+          </ol>
       </div>
   </div>
 </div>
@@ -36,8 +41,12 @@
                         <span class="text-danger">{{$errors->first('title')}}</span>
                       @endif
                     </div>
+                    <div class="form-group">
+                      <label for="">Gambar sebelumnya</label> <span class="text-muted" style="font-size:12px;">(ukuran gambar 1600 x 1066)</span> <br>
+                      <img src="{{ Storage::disk('public')->url('post/'.$post->image)}}" style="width:250px" class="img-thumbnail">
+                    </div>
                     <div class="form-group ">
-                      <label for="image">Image Post *</label>
+                      <label for="image">Image Post *</label> <span class="text-muted" style="font-size:12px;">(kosongkan jika tidak ingin ganti)</span>
                       <input class="form-control shadow-right {{$errors->has('image') ? ' border-danger' : ''}}" id="image" name="image" type="file">
                       @if ($errors->has('image'))
                         <span class="text-danger">{{$errors->first('image')}}</span>
@@ -61,7 +70,7 @@
         <div class="card card-header-actions mb-4">
           <div class="card-header">Categories And Tags
           </div>
-          <div class="card-body" style="height: 400px;">
+          <div class="card-body" style="height: 450px;">
               <div class="sbp-preview">
                 <div class="sbp-preview-content">
                     <div class="form-group ">
@@ -81,7 +90,7 @@
                     </div>
                     <div class="form-group">
                       <label for="category">Category Post *</label>
-                      <select class="form-control selectpicker dropup {{$errors->has('categories') ? ' is-invalid' : ''}}" name="categories[]" id="category" data-size="5" data-live-search="true" data-dropup-auto="false" multiple>
+                      <select class="form-control selectpicker {{$errors->has('categories') ? ' is-invalid' : ''}}" name="categories[]" id="category" data-size="5" data-live-search="true" multiple>
                         @foreach($categories as $category)
                             <option
                                 @foreach($post->categories as $postCategory)

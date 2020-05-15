@@ -74,7 +74,7 @@ class PostController extends Controller
             $postImage = Image::make($image)->resize(1600, 1066)->save(90);
             Storage::disk('public')->put('post/' . $imageName, $postImage);
         } else {
-            $imageName = "default.png";
+            $imageName = "default.jpg";
         }
         $post = new Post();
         $post->user_id = Auth::id();
@@ -187,6 +187,12 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        if (Storage::disk('public')->exists('post/' . $post->image)) {
+            Storage::disk('public')->delete('post/' . $post->image);
+        }
+        $post->categories()->detach();
+        $post->tags()->detach();
+        $post->delete();
+        return redirect()->back()->with('sukses', 'Data post berhasil dihapus.');
     }
 }
