@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Post;
+use Conner\Tagging\Model\Tag;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +17,34 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('pages.home');
+        $categori1 = Category::first();
+        $slug = $categori1->slug;
+        $categories = Category::where('slug', '!=', $slug)->take(2)->get();
+        $terbaru = Post::where([
+            ['is_approved', true], ['status', true]
+        ])->latest()->paginate(6);
+        $popularPost = Post::orderBy('view_count', 'DESC')->limit(6)->get();
+        // dd($slug);
+        return view('pages.home', [
+            'categori1' => $categori1,
+            'categories' => $categories,
+            'terbaru'   => $terbaru,
+            'popularPost'   => $popularPost
+        ]);
+    }
+    public function blogpost($slug)
+    {
+        $categories = Category::all();
+        $post = Post::where('slug', $slug)->firstOrFail();
+        $postKey = 'blog_' . $post->id;
+        if (!Session::has($postKey)) {
+            $post->increment('view_count');
+            Session::put($postKey, 1);
+        }
+        return view('pages.blogpost', [
+            'post'  => $post,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -80,5 +111,33 @@ class HomeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function category()
+    {
+        $categories = Category::paginate(6);
+        return view('pages.category', [
+            'categories' => $categories
+        ]);
+    }
+
+    public function tagview($slug)
+    {
+        $tag = Tag::where('slug', $slug)->first();
+        $postByTag = Post::withAnyTag($slug, 'slug')->paginate(6);
+        return view('pages.tagsview', [
+            'postByTag' => $postByTag,
+            'tag' => $tag
+        ]);
+    }
+
+    public function categoryview($slug)
+    {
+        $categories = Category::where('slug', $slug)->first();
+        $posts = $categories->posts()->approved()->published()->paginate(6);
+        return view('pages.category-view', [
+            'posts' => $posts,
+            'categories' => $categories
+        ]);
     }
 }

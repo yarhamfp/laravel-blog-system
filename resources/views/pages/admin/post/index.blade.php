@@ -26,7 +26,7 @@
     <div class="col-lg-12">
       <div class="card card-header-actions mb-4">
         <div class="card-header">Data Post
-          <a href="{{route('post.create')}}" class="btn btn-primary btn-icon"><i class="fa fa-plus"></i></a>
+          <a href="{{route('admin.post.create')}}" class="btn btn-primary btn-icon"><i class="fa fa-plus"></i></a>
           {{-- <span>
             <a href="{{route('post.create')}}" class="btn btn-primary ml-4"><i class="fa fa-plus"></i> Tambah</a>
           </span>  --}}
@@ -87,20 +87,20 @@
                           <td>{{ \carbon\carbon::create($item->created_at->toDateTimeString())->timezone('Asia/Jakarta')->format('d F, Y'.' .'.' H:i')}}</td>
                           <td>{{\carbon\carbon::create($item->updated_at->toDateTimeString())->timezone('Asia/Jakarta')->format('d F, Y'.' .'.' H:i')}}</td>
                           <td>
-                            <a href="{{route('post.show',$item->id)}}" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="eye"></i></a>
-                            <a href="{{route('post.edit',$item->id)}}" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="edit"></i></a>
+                            <a href="{{route('admin.post.show',$item->id)}}" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="eye"></i></a>
+                            <a href="{{route('admin.post.edit',$item->id)}}" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="edit"></i></a>
                             {{-- <a href="{{route('post.edit',$item->id)}}" class="btn btn-primary btn-icon"><i class="fa fa-pencil-alt"></i></a> --}}
-                            <form action="{{route('post.destroy',$item->id)}}" method="POST" class="d-inline">
+                            <form id="delete-post" action="{{route('admin.post.destroy',$item->id)}}" method="POST" class="d-inline">
                             @csrf
                             @method('delete')
-                            <button type="submit" class="btn btn-datatable btn-icon btn-transparent-dark" onclick="return confirm('Yakin ingin hapus data ini?')"><i data-feather="trash-2"></i>
+                            <button type="submit" class="btn btn-datatable btn-icon btn-transparent-dark delete" onclick="return confirm('Yakin ingin hapus data ini?')"><i data-feather="trash-2"></i>
                             </button>
                             </form>
                           </td>
                         </tr>
                         @empty
                           <tr>
-                            <td colspan="4" class="text-center">Data Post Kosong</td>
+                            <td colspan="10" class="text-center">Data Post Kosong</td>
                           </tr>
                         @endforelse
                     </tbody>

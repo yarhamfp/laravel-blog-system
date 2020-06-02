@@ -14,33 +14,29 @@
           </h1>
           <div class="page-header-subtitle">Keseluruhan data tag
           </div>
+          <ol class="breadcrumb mt-4 mb-0">
+            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Tags</li>
+          </ol>
       </div>
   </div>
 </div>
 <div class="container-fluid mt-n10">
   <div class="row">
     <div class="col-lg-5">
-      <div class="card mb-4">
-        <div class="card-header">Tambah Tag</div>
-        <div class="card-body">
-            <div class="sbp-preview">
-              <div class="sbp-preview-content">
-                <form action="{{route('tag.store')}}" method="POST">
-                  @csrf
-                  <div class="form-group ">
-                    <label for="name">Name Tag *</label>
-                    <input class="form-control shadow-right {{$errors->has('name') ? ' border-danger' : ''}}" id="name" name="name" type="text" value="{{old('name')}}" placeholder="Enter Tag...">
-                    @if($errors->any())
-                        @foreach ($errors->all() as $error)
-                          <span class="text-danger">{{$error}}</span> 
-                        @endforeach
-                    @endif
-                  </div>
-                  <div class="text-right">
-                    <button type="submit" class="btn btn-primary btn-sm shadow-lg">Simpan</button>
-                  </div>
-                </form>
-              </div>
+      <div class="card card-icon mb-4">
+        <div class="row no-gutters">
+            <div class="col-auto card-icon-aside bg-info"><i class="text-white-50" data-feather="alert-triangle"></i></div>
+            <div class="col">
+                <div class="card-body py-5">
+                    <h5 class="card-title">Informasi</h5>
+                    <p class="card-text">
+                      Anda hanya dapat membuat tag langsung pada saat membuat post
+                    </p>
+                    <p class="card-text bg-warning text-dark" style="border-radius: 5px; padding: 3px;">
+                      Anda hanya dapat menghapus tag yang belum berelasi / posts count masih 0
+                    </p>
+                </div>
             </div>
         </div>
       </div>
@@ -56,7 +52,6 @@
                             <th>No</th>
                             <th>Tag</th>
                             <th>Posts Count</th>
-                            <th>Created At</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -65,7 +60,6 @@
                             <th>No</th>
                             <th>Tag</th>
                             <th>Posts Count</th>
-                            <th>Create At</th>
                             <th>Actions</th>
                         </tr>
                     </tfoot>
@@ -74,10 +68,9 @@
                         <tr>
                           <td>{{$key+1}}</td>
                           <td>{{$item->name}}</td>
-                          <td>{{$item->posts->count()}}</td>
-                          <td>{{ \carbon\carbon::create($item->created_at->toDateTimeString())->timezone('Asia/Jakarta')->format('d F, Y'.' .'.' H:i')}}</td>
+                          <td>{{$item->count}}</td>
                           <td>
-                            <form action="{{route('tag.destroy',$item->id)}}" method="POST" class="d-inline">
+                            <form action="{{route('admin.tag.destroy',$item->id)}}" method="POST" class="d-inline">
                               @csrf
                               @method('delete')
                               <button type="submit" class="btn btn-datatable btn-icon btn-transparent-dark" onclick="return confirm('Yakin ingin hapus data ini?')"><i data-feather="trash-2"></i>

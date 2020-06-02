@@ -10,24 +10,24 @@
     <meta name="author" content />
     <title>@yield('title')</title>
     @stack('addon-style')
-    @include('includes.author.style')
+    @include('includes.admin.style')
     @stack('prepend-style')
   </head>
   <body class="nav-fixed">
-    @include('includes.author.navbar')
+    @include('includes.admin.navbar')
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            @include('includes.author.sidebar')
+            @include('includes.admin.sidebar')
         </div>
         <div id="layoutSidenav_content">
             <main>
                 @yield('content')
             </main>
-            @include('includes.author.footer')
+            @include('includes.admin.footer')
         </div>
     </div>
     @stack('addon-sctipt')
-    @include('includes.author.script')
+    @include('includes.admin.script')
     @stack('prepend-script')
   </body>
 

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Tag;
+// use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Conner\Tagging\Model\Tag;
+
 
 class TagController extends Controller
 {
@@ -29,7 +31,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -40,14 +42,7 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => "required|unique:tags"
-        ]);
-        $data = $request->all();
-        $data['slug'] = Str::slug($request->name);
-
-        Tag::create($data);
-        return redirect()->back()->with('sukses', 'Data berhasil ditambahkan');
+        return redirect()->back();
     }
 
     /**
@@ -58,7 +53,7 @@ class TagController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -69,7 +64,7 @@ class TagController extends Controller
      */
     public function edit($id)
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -81,7 +76,7 @@ class TagController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -90,9 +85,18 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // delete multiple
+    public function delm(Request $request, $id)
+    {
+        return $request->all();
+    }
+
     public function destroy($id)
     {
         $data = Tag::findOrFail($id);
+        if ($data->count != null) {
+            return redirect()->back()->with('error', 'Tag ini tidak dapat dihapus karena sudah berelasi dengan post');
+        }
         $data->delete();
 
         return redirect()->back()->with('sukses', 'Data berhasil dihapus');

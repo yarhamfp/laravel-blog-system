@@ -6,62 +6,67 @@
 CKEDITOR.editorConfig = function (config) {
     // Define changes to default configuration here. For example:
     // config.language = 'fr';
-    config.uiColor = '#66c2ff';
-    config.toolbarGroups = [{
-            name: 'document',
-            groups: ['mode', 'document', 'doctools']
+    config.extraPlugins = "codesnippet";
+    config.codeSnippet_theme = "monokai_sublime";
+    config.height = 356;
+    config.uiColor = "#66c2ff";
+    config.toolbarGroups = [
+        {
+            name: "document",
+            groups: ["mode", "document", "doctools"],
         },
         {
-            name: 'clipboard',
-            groups: ['clipboard', 'undo']
+            name: "clipboard",
+            groups: ["clipboard", "undo"],
         },
         {
-            name: 'editing',
-            groups: ['find', 'selection', 'spellchecker', 'editing']
+            name: "editing",
+            groups: ["find", "selection", "spellchecker", "editing"],
         },
         {
-            name: 'forms',
-            groups: ['forms']
+            name: "forms",
+            groups: ["forms"],
         },
-        '/',
+        "/",
         {
-            name: 'basicstyles',
-            groups: ['basicstyles', 'cleanup']
-        },
-        {
-            name: 'paragraph',
-            groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph']
+            name: "basicstyles",
+            groups: ["basicstyles", "cleanup"],
         },
         {
-            name: 'links',
-            groups: ['links']
+            name: "paragraph",
+            groups: ["list", "indent", "blocks", "align", "bidi", "paragraph"],
         },
         {
-            name: 'insert',
-            groups: ['insert']
-        },
-        '/',
-        {
-            name: 'styles',
-            groups: ['styles']
+            name: "links",
+            groups: ["links"],
         },
         {
-            name: 'colors',
-            groups: ['colors']
+            name: "insert",
+            groups: ["insert"],
+        },
+        "/",
+        {
+            name: "styles",
+            groups: ["styles"],
         },
         {
-            name: 'tools',
-            groups: ['tools']
+            name: "colors",
+            groups: ["colors"],
         },
         {
-            name: 'others',
-            groups: ['others']
+            name: "tools",
+            groups: ["tools"],
         },
         {
-            name: 'about',
-            groups: ['about']
-        }
+            name: "others",
+            groups: ["others"],
+        },
+        {
+            name: "about",
+            groups: ["about"],
+        },
     ];
 
-    config.removeButtons = 'Print,Save,NewPage,Preview,Templates,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,Select,Textarea,TextField,Button,HiddenField,ImageButton,Subscript,Superscript,CopyFormatting,RemoveFormat,Flash';
+    config.removeButtons =
+        "Print,Save,NewPage,Preview,Templates,PasteText,PasteFromWord,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,Select,Textarea,TextField,Button,HiddenField,ImageButton,Subscript,Superscript,CopyFormatting,RemoveFormat,Flash";
 };

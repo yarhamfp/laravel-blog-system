@@ -1,545 +1,160 @@
 @extends('layouts.app')
 @section('title')
-    Home | BakeBlog
+    Home
 @endsection
 @section('content')
-{{-- image hero --}}
-<div class="site-section py-0">
-  <div class="owl-carousel hero-slide owl-style">
-    <div class="site-section">
-      <div class="container">
-        <div class="half-post-entry d-block d-lg-flex bg-light">
-          <div class="img-bg" style="background-image: url('{{ url('frontend/images/master.jpg') }}');"></div>
-          <div class="contents">
-            <span class="caption">Editor's Pick</span>
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Voluptate vero obcaecati natus adipisci necessitatibus eius,
-              enim vel sit ad reiciendis. Enim praesentium magni delectus
-              cum, tempore deserunt aliquid quaerat culpa nemo veritatis,
-              iste adipisci excepturi consectetur doloribus aliquam
-              accusantium beatae?
-            </p>
+<header>
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner" role="listbox">
+      <!-- Slide One - Set the background image for this slide in the line below -->
+      <div class="carousel-item active" style="background-image: url('{{Storage::disk('public')->url('category/slider/'.$categori1->image)}}')">
+        <div class="carousel-caption d-none d-md-block">
+          <h3>{{$categori1->name}}</h3>
+          <p>This is a description for the first slide.</p>
+        </div>
+      </div>
+      <!-- Slide Two - Set the background image for this slide in the line below -->
+      @foreach ($categories as $item)
+      <div class="carousel-item" style="background-image: url('{{Storage::disk('public')->url('category/slider/'.$item->image)}}')">
+        <div class="carousel-caption d-none d-md-block">
+          <h3>{{$item->name}}</h3>
+          <p>This is a description for the second slide.</p>
+        </div>
+      </div>
+      @endforeach
+      <!-- Slide Three - Set the background image for this slide in the line below -->
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</header>
 
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">Food</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
+<!-- Page Content -->
+<div class="container">
+
+  <h1 class="my-4">Popular Post</h1>
+
+  <!-- Popular Section -->
+  <div class="row">
+    @forelse ($popularPost as $popular)
+    <div class="col-lg-4 mb-4">
+      <div class="card h-100 text-center">
+        <img class="card-img-top" src="{{Storage::disk('public')->url('post/thumb/'.$popular->image)}}" alt="{{$popular->slug}}">
+        <div class="card-body">
+          <h4 class="card-title"><a href="{{route('blogpost',$popular->slug)}}">{{$popular->title}}</a></h4>
+          {{-- @foreach ($popular->categories as $category) --}}
+          <h6 class="card-subtitle mb-2 text-muted">in {{$popular->categories->first()->name}}</h6>
+          {{-- @endforeach --}}
+          <p class="card-text text-muted"><i class="fa fa-eye"></i> {{$popular->view_count}}</p>
+        </div>
+        <div class="card-footer text-muted">
+          Posted on {{Carbon\Carbon::create($popular->created_at->todateTimeString())->timezone('Asia/Jakarta')->format('d F, Y')}} by
+          <a href="#!" class="text-dark"><strong>{{$popular->users->name}}</strong></a>
         </div>
       </div>
     </div>
-    <div class="site-section">
-      <div class="container">
-        <div class="half-post-entry d-block d-lg-flex bg-light">
-          <div class="img-bg" style="background-image: url('{{ url('frontend/images/master.jpg') }}');"></div>
-          <div class="contents">
-            <span class="caption">Editor's Pick</span>
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Voluptate vero obcaecati natus adipisci necessitatibus eius,
-              enim vel sit ad reiciendis. Enim praesentium magni delectus
-              cum, tempore deserunt aliquid quaerat culpa nemo veritatis,
-              iste adipisci excepturi consectetur doloribus aliquam
-              accusantium beatae?
-            </p>
+    @empty
+    <p class="bg-secondary">Popular post Kosong, Silahkan admin/author membuat post untuk ditampilkan</p>
+    @endforelse
+  </div>
+  <!-- /.row -->
 
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">Food</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
+  <!-- Portfolio Section -->
+  <h2>Recent Post</h2>
+
+  <div class="row">
+    @foreach ($terbaru as $item)
+    <div class="col-lg-4 mb-4">
+      <div class="card h-100 ">
+        <img class="card-img-top" src="{{Storage::disk('public')->url('post/thumb/'.$item->image)}}" alt="{{$item->slug}}">
+        <div class="card-body">
+          <h2 class="card-title">{{$item->title}}</h2>
+          <p class="card-text">{!!Str::limit($item->body)!!}</p>
+          <p class="card-text text-muted"><i class="fa fa-eye"></i> {{$item->view_count}} &nbsp; <i class="fa fa-comment"></i> {{$item->view_count}}</p>
+          <a href="{{route('blogpost',$item->slug)}}" class="btn btn-primary">Read More &rarr;</a>
+        </div>
+        <div class="card-footer text-muted">
+          Posted on {{$item->created_at->diffForHumans()}} by
+          <a href="#!" class="text-dark"><strong>{{$item->users->name}}</strong></a>
         </div>
       </div>
     </div>
+    @endforeach
     
   </div>
-</div>
-{{-- end image hero --}}
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+      {{$terbaru->links()}}
+    </li>
+  </ul>
+  <!-- /.row -->
 
-{{-- kedua --}}
-<div class="site-section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8">
-        <div class="row">
-          <div class="col-12">
-            <div class="section-title">
-              <h2>Editor's Pick</h2>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="post-entry-1">
-              <a href="post-single.html"><img src="{{ url('frontend/images/img_h_1.jpg')}}" alt="Image" class="img-fluid" /></a>
-              <h2>
-                <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-              </h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Eligendi temporibus praesentium neque, voluptatum quam
-                quibusdam.
-              </p>
-              <div class="post-meta">
-                <span class="d-block"><a href="#">Dave Rogers</a> in
-                  <a href="#">News</a></span>
-                <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                  <span class="icon-star2"></span></span>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="post-entry-2 d-flex bg-light">
-              <div class="thumbnail" style="background-image: url('{{url('frontend/images/img_v_1.jpg')}}');"></div>
-              <div class="contents">
-                <h2>
-                  <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-                </h2>
-                <div class="post-meta">
-                  <span class="d-block"><a href="#">Dave Rogers</a> in
-                    <a href="#">News</a></span>
-                  <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                    <span class="icon-star2"></span></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="post-entry-2 d-flex">
-              <div class="thumbnail" style="background-image: url('{{url('frontend/images/img_v_2.jpg')}}');"></div>
-              <div class="contents">
-                <h2>
-                  <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-                </h2>
-                <div class="post-meta">
-                  <span class="d-block"><a href="#">Dave Rogers</a> in
-                    <a href="#">News</a></span>
-                  <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                    <span class="icon-star2"></span></span>
-                </div>
-              </div>
-            </div>
-
-            <div class="post-entry-2 d-flex">
-              <div class="thumbnail" style="background-image: url('{{url('frontend/images/img_v_3.jpg')}}');"></div>
-              <div class="contents">
-                <h2>
-                  <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-                </h2>
-                <div class="post-meta">
-                  <span class="d-block"><a href="#">Dave Rogers</a> in
-                    <a href="#">News</a></span>
-                  <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                    <span class="icon-star2"></span></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4">
-        <div class="section-title">
-          <h2>Trending</h2>
-        </div>
-
-        <div class="trend-entry d-flex">
-          <div class="number align-self-start">01</div>
-          <div class="trend-contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="trend-entry d-flex">
-          <div class="number align-self-start">02</div>
-          <div class="trend-contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="trend-entry d-flex">
-          <div class="number align-self-start">03</div>
-          <div class="trend-contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="trend-entry d-flex">
-          <div class="number align-self-start">04</div>
-          <div class="trend-contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-
-        <p>
-          <a href="#" class="more">See All Trends <span class="icon-keyboard_arrow_right"></span></a>
-        </p>
-      </div>
+  <!-- Features Section -->
+  <div class="row">
+    <div class="col-lg-6">
+      <h2>Modern Business Features</h2>
+      <p>The Modern Business template by Start Bootstrap includes:</p>
+      <ul>
+        <li>
+          <strong>Bootstrap v4</strong>
+        </li>
+        <li>jQuery</li>
+        <li>Font Awesome</li>
+        <li>Working contact form with validation</li>
+        <li>Unstyled page elements for easy customization</li>
+      </ul>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, omnis doloremque non cum id
+        reprehenderit, quisquam totam aspernatur tempora minima unde aliquid ea culpa sunt. Reiciendis quia dolorum
+        ducimus unde.</p>
+    </div>
+    <div class="col-lg-6">
+      <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
     </div>
   </div>
-</div>
-<!-- END section -->
+  <!-- /.row -->
 
-<div class="py-0">
-  <div class="container">
-    <div class="half-post-entry d-block d-lg-flex bg-light">
-      <div class="img-bg" style="background-image: url('{{ url('frontend/images/master.jpg')}}');"></div>
-      <div class="contents">
-        <span class="caption">Editor's Pick</span>
-        <h2>
-          <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-        </h2>
-        <p class="mb-3">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Voluptate vero obcaecati natus adipisci necessitatibus eius,
-          enim vel sit ad reiciendis. Enim praesentium magni delectus cum,
-          tempore deserunt aliquid quaerat culpa nemo veritatis, iste
-          adipisci excepturi consectetur doloribus aliquam accusantium
-          beatae?
-        </p>
+  <hr>
 
-        <div class="post-meta">
-          <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">Food</a></span>
-          <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-            <span class="icon-star2"></span></span>
-        </div>
-      </div>
+  <!-- Call to Action Section -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti
+        beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+    </div>
+    <div class="col-md-4">
+      <a class="btn btn-lg btn-secondary btn-block" href="#">Call to Action</a>
     </div>
   </div>
+
 </div>
-
-<div class="site-section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="section-title">
-          <h2>Politics</h2>
-        </div>
-        <div class="post-entry-2 d-flex">
-          <div class="thumbnail" style="background-image: url('{{ url('frontend/images/img_v_1.jpg')}}');"></div>
-          <div class="contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Eligendi temporibus praesentium neque, voluptatum quam
-              quibusdam.
-            </p>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-        <div class="post-entry-2 d-flex">
-          <div class="thumbnail" style="background-image: url('{{ url('frontend/images/img_v_2.jpg')}}');"></div>
-          <div class="contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Eligendi temporibus praesentium neque, voluptatum quam
-              quibusdam.
-            </p>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-        <div class="post-entry-2 d-flex">
-          <div class="thumbnail" style="background-image: url('{{ url('frontend/images/img_v_3.jpg')}}');"></div>
-          <div class="contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Eligendi temporibus praesentium neque, voluptatum quam
-              quibusdam.
-            </p>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="section-title">
-          <h2>Business</h2>
-        </div>
-        <div class="post-entry-2 d-flex">
-          <div class="thumbnail" style="background-image: url('{{ url('frontend/images/img_v_1.jpg')}}');"></div>
-          <div class="contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Eligendi temporibus praesentium neque, voluptatum quam
-              quibusdam.
-            </p>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-        <div class="post-entry-2 d-flex">
-          <div class="thumbnail" style="background-image: url('{{ url('frontend/images/img_v_2.jpg')}}');"></div>
-          <div class="contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Eligendi temporibus praesentium neque, voluptatum quam
-              quibusdam.
-            </p>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-        <div class="post-entry-2 d-flex">
-          <div class="thumbnail" style="background-image: url('{{ url('frontend/images/img_v_3.jpg')}}');"></div>
-          <div class="contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Eligendi temporibus praesentium neque, voluptatum quam
-              quibusdam.
-            </p>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="site-section">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-9">
-        <div class="section-title">
-          <h2>Recent News</h2>
-        </div>
-        <div class="post-entry-2 d-flex">
-          <div class="thumbnail order-md-2" style="background-image: url('{{ url('frontend/images/img_h_4.jpg')}}');"></div>
-          <div class="contents order-md-1 pl-0">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Eligendi temporibus praesentium neque, voluptatum quam
-              quibusdam.
-            </p>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="post-entry-2 d-flex">
-          <div class="thumbnail order-md-2" style="background-image: url('{{ url('frontend/images/img_h_3.jpg')}}');"></div>
-          <div class="contents order-md-1 pl-0">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Eligendi temporibus praesentium neque, voluptatum quam
-              quibusdam.
-            </p>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="post-entry-2 d-flex">
-          <div class="thumbnail order-md-2" style="background-image: url('{{ url('frontend/images/img_h_3.jpg')}}');"></div>
-          <div class="contents order-md-1 pl-0">
-            <span class="caption mb-4 d-block">Editor's Pick</span>
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <p class="mb-3">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Eligendi temporibus praesentium neque, voluptatum quam
-              quibusdam.
-            </p>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3">
-        <div class="section-title">
-          <h2>Popular Posts</h2>
-        </div>
-
-        <div class="trend-entry d-flex">
-          <div class="number align-self-start">01</div>
-          <div class="trend-contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="trend-entry d-flex">
-          <div class="number align-self-start">02</div>
-          <div class="trend-contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="trend-entry d-flex">
-          <div class="number align-self-start">03</div>
-          <div class="trend-contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="trend-entry d-flex pl-0">
-          <div class="number align-self-start">04</div>
-          <div class="trend-contents">
-            <h2>
-              <a href="blog-single.html">News Needs to Meet Its Audiences Where They Are</a>
-            </h2>
-            <div class="post-meta">
-              <span class="d-block"><a href="#">Dave Rogers</a> in <a href="#">News</a></span>
-              <span class="date-read">Jun 14 <span class="mx-1">&bullet;</span> 3 min read
-                <span class="icon-star2"></span></span>
-            </div>
-          </div>
-        </div>
-
-        <p>
-          <a href="#" class="more">See All Popular
-            <span class="icon-keyboard_arrow_right"></span></a>
-        </p>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-6">
-        <ul class="custom-pagination list-unstyled">
-          <li><a href="#">1</a></li>
-          <li class="active">2</li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="site-section subscribe bg-light">
-  <div class="container">
-    <form action="#" class="row align-items-center">
-      <div class="col-md-5 mr-auto">
-        <h2>Newsletter Subcribe</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Perferendis aspernatur ut at quae omnis pariatur obcaecati
-          possimus nisi ea iste!
-        </p>
-      </div>
-      <div class="col-md-6 ml-auto">
-        <div class="d-flex">
-          <input type="email" class="form-control" placeholder="Enter your email" />
-          <button type="submit" class="btn btn-secondary">
-            <span class="icon-paper-plane"></span>
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
+<!-- /.container -->
 @endsection
 
-@push('addon-style')
-
+@push('prepend-style')
+<link href="{{ url('toastr/build/toastr.css')}}" rel="stylesheet"/>
 @endpush
-@push('addon-script')
+@push('prepend-script')
+<script src="{{ url('toastr/toastr.js')}}"></script>
+<script>
+  @if(Session::has('sukses'))
+  toastr.success("Sukses! {{Session::get('sukses')}}");  
+  @endif
+  @if(Session::has('error'))
+  toastr.error("Error! {{Session::get('error')}}")  
+  @endif
+  @if(Session::has('warning'))
+  toastr.warning("Warning! {{Session::get('warning')}}")  
+  @endif
+</script>
 @endpush

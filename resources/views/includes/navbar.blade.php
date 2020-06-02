@@ -1,89 +1,38 @@
-<div class="site-mobile-menu site-navbar-target">
-  <div class="site-mobile-menu-header">
-    <div class="site-mobile-menu-close mt-3">
-      <span class="icon-close2 js-menu-toggle"></span>
-    </div>
-  </div>
-  <div class="site-mobile-menu-body"></div>
-</div>
-
-<div class="header-top">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-12 col-lg-6 d-flex">
-        <a href="index.html" class="site-logo">
-          {{-- <img src="{{url('frontend/images/kikuk.png')}}" style="width: 100px" alt="logo"> --}}
-          Bake<span>blog.</span>
-        </a>
-
-        <a href="#" class="ml-auto d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
-            class="icon-menu h3"></span></a>
-      </div>
-      <div class="col-12 col-lg-6 ml-auto d-flex">
-        <div class="top-social ml-md-auto d-none d-lg-inline-block">
-          <a href="#" class="d-inline-block p-3"><span class="icon-phone"></span></a>
-          <a href="#" class="d-inline-block p-3"><span class="icon-envelope"></span></a>
-          <a href="#" class="d-inline-block p-3"><span class="icon-facebook"></span></a>
-          <a href="#" class="d-inline-block p-3"><span class="icon-instagram"></span></a>
-        </div>
-        <form action="#" class="search-form d-inline-block">
-          <div class="d-flex">
-            <input type="email" class="form-control" placeholder="Search..." />
-            <button type="submit" class="btn btn-secondary">
-              <span class="icon-search"></span>
-            </button>
+    <a class="navbar-brand" href="{{route('home')}}">Bake<span style="color: #6c757d;"><strong>blog</strong></span> </a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="{{route('home')}}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{route('category.show')}}">Categories</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#!">Contact</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Blog
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+            <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
+            <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
+            <a class="dropdown-item" href="blog-post.html">Blog Post</a>
           </div>
-        </form>
-      </div>
-      <div class="col-6 d-block d-lg-none text-right"></div>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+      </form>
     </div>
   </div>
-
-  <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
-    <div class="container">
-      <div class="d-flex align-items-center">
-        <div class="ml-auto">
-          <nav class="site-navigation position-relative text-left" role="navigation">
-            <ul class="site-menu main-menu js-clone-nav mr-auto d-none pl-0 d-lg-block link">
-              <li class="link active">
-                <a href="{{route('home')}}" class="nav-link text-left ">Home</a>
-              </li>
-              <li class="link nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-left" href="#" id="navbarDropdown" role="button"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Categories
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li>
-              <li class="link">
-                <a href="#" class="nav-link text-left">About</a>
-              </li>
-              <li class="link">
-                <a href="#" class="nav-link text-left">Blog</a>
-              </li>
-              <li class="link">
-                <a href="#" class="nav-link text-left">Contact</a>
-              </li>
-              <li class="link">
-                @guest
-                <a href="{{url('login')}}" class="btn blue px-3 nav-link text-left">Login</a>
-                @endguest
-                @auth
-                <form action="{{route('logout')}}" method="POST" class="inline">
-                @csrf
-                <button type="submit" class="btn blue px-3 nav-link text-left">Logout</button>
-                </form>
-                @endauth
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+</nav>

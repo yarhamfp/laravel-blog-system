@@ -14,6 +14,10 @@
           </h1>
           <div class="page-header-subtitle">Keseluruhan data category
           </div>
+          <ol class="breadcrumb mt-4 mb-0">
+            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Category</li>
+          </ol>
       </div>
   </div>
 </div>
@@ -22,7 +26,7 @@
     <div class="col-lg-12">
       <div class="card card-header-actions mb-4">
         <div class="card-header">Data Category
-          <a href="{{route('category.create')}}" class="btn btn-primary btn-icon"><i class="fa fa-plus"></i></a>
+          <a href="{{route('admin.category.create')}}" class="btn btn-primary btn-icon"><i class="fa fa-plus"></i></a>
           {{-- <span>
             <a href="{{route('category.create')}}" class="btn btn-primary ml-4"><i class="fa fa-plus"></i> Tambah</a>
           </span>  --}}
@@ -33,7 +37,7 @@
                 <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>No</th>
                             <th>Category</th>
                             <th>Posts Count</th>
                             <th>Created At</th>
@@ -43,7 +47,7 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
+                            <th>No</th>
                             <th>Category</th>
                             <th>Posts Count</th>
                             <th>Created At</th>
@@ -52,17 +56,17 @@
                         </tr>
                     </tfoot>
                     <tbody>
-                        @forelse ($item as $item)
+                        @forelse ($item as $key => $item)
                         <tr>
-                          <td>{{$item->id}}</td>
+                          <td>{{$key +1 }}</td>
                           <td>{{$item->name}}</td>
                           <td>{{$item->posts->count()}}</td>
                           <td>{{ \carbon\carbon::create($item->created_at->toDateTimeString())->timezone('Asia/Jakarta')->format('d F, Y'.' .'.' H:i')}}</td>
                           <td>{{\carbon\carbon::create($item->updated_at->toDateTimeString())->timezone('Asia/Jakarta')->format('d F, Y'.' .'.' H:i')}}</td>
                           <td>
-                            <a href="{{route('category.edit',$item->id)}}" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="edit"></i></a>
+                            <a href="{{route('admin.category.edit',$item->id)}}" class="btn btn-datatable btn-icon btn-transparent-dark"><i data-feather="edit"></i></a>
                             {{-- <a href="{{route('category.edit',$item->id)}}" class="btn btn-primary btn-icon"><i class="fa fa-pencil-alt"></i></a> --}}
-                            <form action="{{route('category.destroy',$item->id)}}" method="POST" class="d-inline">
+                            <form action="{{route('admin.category.destroy',$item->id)}}" method="POST" class="d-inline">
                               @csrf
                               @method('delete')
                               <button type="submit" class="btn btn-datatable btn-icon btn-transparent-dark" onclick="return confirm('Yakin ingin hapus data ini?')"><i data-feather="trash-2"></i>

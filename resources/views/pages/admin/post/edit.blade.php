@@ -16,20 +16,20 @@
           </div>
           <ol class="breadcrumb mt-4 mb-0">
             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item active"><a href="{{route('post.index')}}">Post</a></li>
+            <li class="breadcrumb-item active"><a href="{{route('admin.post.index')}}">Post</a></li>
             <li class="breadcrumb-item active">Edit Post</li>
           </ol>
       </div>
   </div>
 </div>
 <div class="container-fluid mt-n10">
-  <form action="{{route('post.update',$post->id)}}" method="POST" enctype="multipart/form-data">
+  <form action="{{route('admin.post.update',$post->id)}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="row">
       <div class="col-lg-12">
         <div class="card mb-4">
-          <div class="card-header"><a href="{{route('post.index')}}" class="btn btn-primary btn-icon"><i class="fa fa-arrow-left"></i></a> <p class="mx-auto">Title Post</p>
+          <div class="card-header"><a href="{{route('admin.post.index')}}" class="btn btn-primary btn-icon"><i class="fa fa-arrow-left"></i></a> <p class="mx-auto">Title Post</p>
           </div>
           <div class="card-body">
               <div class="sbp-preview">
@@ -56,9 +56,9 @@
                       <input class="custom-control-input" name="status" id="customCheck1" value="1" type="checkbox" {{$post->status == true ? 'checked' : ''}}>
                       <label class="custom-control-label" for="customCheck1">Publish</label>
                     </div>
-                    <div class="text-right">
+                    {{-- <div class="text-right">
                       <button type="submit" class="btn btn-primary btn-sm shadow-lg">Simpan</button>
-                    </div>
+                    </div> --}}
                 </div>
               </div>
           </div>
@@ -66,31 +66,16 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-lg-6">
         <div class="card card-header-actions mb-4">
-          <div class="card-header">Categories And Tags
+          <div class="card-header">Categories
           </div>
-          <div class="card-body" style="height: 450px;">
+          <div class="card-body" style="height: 270px;">
               <div class="sbp-preview">
                 <div class="sbp-preview-content">
-                    <div class="form-group ">
-                      <label for="tag">Tag Post *</label>
-                      <select class="form-control selectpicker {{$errors->has('tags') ? ' is-invalid' : ''}}" name="tags[]" id="tag" data-size="5" data-live-search="true" data-dropup-auto="false" multiple>
-                        @foreach($tags as $tag)
-                            <option
-                                @foreach($post->tags as $postTag)
-                                    {{ $postTag->id == $tag->id ? 'selected' : '' }}
-                                @endforeach
-                                value="{{ $tag->id }}">{{ $tag->name }}</option>
-                        @endforeach
-                      </select>
-                      @if ($errors->has('tags'))
-                      <span class="text-danger">{{$errors->first('tags')}}</span>
-                      @endif
-                    </div>
                     <div class="form-group">
                       <label for="category">Category Post *</label>
-                      <select class="form-control selectpicker {{$errors->has('categories') ? ' is-invalid' : ''}}" name="categories[]" id="category" data-size="5" data-live-search="true" multiple>
+                      <select class="form-control selectpicker {{$errors->has('categories') ? ' is-invalid' : ''}}" name="categories[]" id="category" data-size="3" data-live-search="true" multiple>
                         @foreach($categories as $category)
                             <option
                                 @foreach($post->categories as $postCategory)
@@ -108,7 +93,33 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-8">
+      <div class="col-lg-6">
+        <div class="card card-header-actions mb-4">
+          <div class="card-header">Tags
+          </div>
+          <div class="card-body">
+              <div class="sbp-preview">
+                <div class="sbp-preview-content">
+                    <div class="form-group ">
+                      <label for="Tags">Tags:</label>
+                      <select class="form-control" name="tags[]" id="tags" multiple="multiple">
+                        @foreach ($post->tags as $tag)
+                        <option selected="selected">{{$tag->name}}</option>
+                        @endforeach
+                      </select>
+                      @if ($errors->has('tags'))
+                      <span class="text-danger">{{$errors->first('tags')}}</span>
+                      @endif
+                    </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
         <div class="card card-header-actions mb-4">
           <div class="card-header">Body Post
           </div>
@@ -117,12 +128,13 @@
                 <div class="sbp-preview-content">
                     <div class="form-group ">
                       <label for="body">Body Post *</label>
-                      <textarea name="body" class="form-control {{$errors->has('body') ? ' is-invalid' : ''}}" id="body" cols="30" rows="10">{!!$post->body!!}</textarea>
+                      <textarea name="body" class="form-control {{$errors->has('body') ? ' is-invalid' : ''}}" id="body" cols="30" rows="10">{{$post->body}}</textarea>
                       @if ($errors->has('body'))
                         <span class="text-danger">{{$errors->first('body')}}</span>
                       @endif
                     </div>
                     <div class="text-right">
+                      <a href="{{route('admin.post.index')}}" class="btn btn-outline-light btn-sm shadow-lg">Back</a>
                       <button type="submit" class="btn btn-primary btn-sm shadow-lg">Simpan</button>
                     </div>
                 </div>
@@ -135,10 +147,12 @@
 </div>
 @endsection
 @push('prepend-style')
+
 <link href="{{ url('backend/cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" crossorigin="anonymous" />
 <link href="{{ url('toastr/build/toastr.css')}}" rel="stylesheet"/>
 <link rel="stylesheet" href="{{url('bootstrap-select/dist/css/bootstrap-select.min.css')}}">
 <script src="{{ url('ckeditor/ckeditor.js')}}"></script>
+<link href="{{url('select2/dist/css/select2.min.css')}}" rel="stylesheet" />
 @endpush
 
 @push('prepend-script')
@@ -147,6 +161,7 @@
 <script src="{{ url('backend/assets/demo/datatables-demo.js') }}"></script>
 <script src="{{ url('toastr/toastr.js')}}"></script>
 <script src="{{url('bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
+<script src="{{url('select2/dist/js/select2.min.js')}}"></script>
 <script>
   @if(Session::has('sukses'))
   toastr.success("Sukses! {{Session::get('sukses')}}");  
@@ -160,6 +175,9 @@
 </script>
 <script>
   $('.my-select').selectpicker();
+  $("#tags").select2({
+  tags: true
+});
 </script>
 <script>
   CKEDITOR.replace( 'body' );

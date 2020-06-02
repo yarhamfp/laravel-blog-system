@@ -15,22 +15,37 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/post/{slug}', 'HomeController@blogpost')->name('blogpost');
+Route::get('/category', 'HomeController@category')->name('category.show');
+Route::get('/category/{slug}', 'HomeController@categoryview')->name('post.category');
+Route::get('/postbytag/{slug}', 'HomeController@tagview')->name('post.tag');
+Route::post('/subscriber', 'SubcriberController@store')->name('subscriber.store');
 
-Route::prefix('admin')
-    ->namespace('admin')
-    ->middleware(['auth', 'admin'])
-    ->group(function () {
-        Route::get('/', 'DashboardController@index')->name('admin.dashboard');
-        Route::resource('tag', 'TagController');
-        Route::resource('category', 'CategoryController');
-        Route::resource('post', 'PostController');
-    });
 
-Route::prefix('author')
-    ->namespace('author')
-    ->middleware(['auth', 'author'])
-    ->group(function () {
-        Route::get('/', 'DashboardController@index')->name('author.dashboard');
-    });
+Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
+    Route::get('/', 'DashboardController@index')->name('dashboard');
+    Route::resource('tag', 'TagController');
+    Route::resource('category', 'CategoryController');
+    Route::resource('post', 'PostController');
+    Route::resource('user', 'UserController');
+    Route::post('/user/{id}/edit', 'UserController@role')->name('role');
+    Route::resource('subcriber', 'SubcriberController');
+    Route::get('/user/{id}/profile', 'ProfileController@profile')->name('profile');
+    Route::post('/user/{id}/profile', 'ProfileController@update')->name('profile.update');
+    Route::put('/reset-password', 'ProfileController@password')->name('reset-password');
+
+    Route::get('pending/post', 'PostController@pending')->name('post.pending');
+    Route::put('/post/{id}/approve', 'PostController@approval')->name('post.approve');
+});
+
+Route::group(['as' => 'author.', 'prefix' => 'author', 'namespace' => 'Author', 'middleware' => ['auth', 'author']], function () {
+    Route::get('/', 'DashboardController@index')->name('dashboard');
+    Route::resource('category', 'CategoryController');
+    Route::resource('post', 'PostController');
+    Route::get('pending/post', 'PostController@pending')->name('post.pending');
+    Route::get('/user/{username}/profile', 'ProfileController@profile')->name('profile');
+    Route::post('/user/{id}/profile', 'ProfileController@update')->name('profile.update');
+    Route::put('/reset-password', 'ProfileController@password')->name('reset-password');
+});
 
 Auth::routes();

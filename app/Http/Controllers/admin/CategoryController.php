@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\Facades\Image;
 
 class CategoryController extends Controller
 {
@@ -81,7 +81,7 @@ class CategoryController extends Controller
         $category->slug = $slug;
         $category->image = $imagename;
         $category->save();
-        return redirect()->route('category.index')->with('sukses', 'Data category berhasil ditambahkan.');
+        return redirect()->route('admin.category.index')->with('sukses', 'Data category berhasil ditambahkan.');
     }
 
     /**
@@ -161,7 +161,7 @@ class CategoryController extends Controller
         $category->slug = $slug;
         $category->image = $imagename;
         $category->save();
-        return redirect()->route('category.index')->with('sukses', 'Data category berhasil diedit.');
+        return redirect()->back()->with('sukses', 'Data category berhasil diedit.');
     }
 
     /**
@@ -173,14 +173,19 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::find($id);
-        if (Storage::disk('public')->exists('category/' . $category->image)) {
-            Storage::disk('public')->delete('category/' . $category->image);
-        }
+        // dd($category->posts);
+        if ($category->posts->count()) {
+            return redirect()->back()->with('error', 'Data category tidak dapat dihapus karena sudah berelasi berelasi dengan Post.');
+        } else {
+            if (Storage::disk('public')->exists('category/' . $category->image)) {
+                Storage::disk('public')->delete('category/' . $category->image);
+            }
 
-        if (Storage::disk('public')->exists('category/slider/' . $category->image)) {
-            Storage::disk('public')->delete('category/slider/' . $category->image);
+            if (Storage::disk('public')->exists('category/slider/' . $category->image)) {
+                Storage::disk('public')->delete('category/slider/' . $category->image);
+            }
+            $category->delete();
+            return redirect()->route('admin.category.index')->with('sukses', 'Data category berhasil dihapus.');
         }
-        $category->delete();
-        return redirect()->route('category.index')->with('sukses', 'Data category berhasil dihapus.');
     }
 }
