@@ -20,6 +20,9 @@ Route::get('/category', 'HomeController@category')->name('category.show');
 Route::get('/category/{slug}', 'HomeController@categoryview')->name('post.category');
 Route::get('/postbytag/{slug}', 'HomeController@tagview')->name('post.tag');
 Route::post('/subscriber', 'SubcriberController@store')->name('subscriber.store');
+Route::post('/comment/{post}', 'CommentController@store')->name('comment.store');
+Route::post('/comment/reply/{comment}', 'CommentController@reply')->name('comment.reply');
+Route::get('/search', 'SearchController@search')->name('search');
 
 
 Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['auth', 'admin']], function () {
@@ -33,9 +36,13 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'mi
     Route::get('/user/{id}/profile', 'ProfileController@profile')->name('profile');
     Route::post('/user/{id}/profile', 'ProfileController@update')->name('profile.update');
     Route::put('/reset-password', 'ProfileController@password')->name('reset-password');
-
     Route::get('pending/post', 'PostController@pending')->name('post.pending');
     Route::put('/post/{id}/approve', 'PostController@approval')->name('post.approve');
+    Route::get('/comment', 'CommentController@index')->name('comment.index');
+    Route::get('/comment/{id}', 'CommentController@show')->name('comment.show');
+    Route::post('/comment/reply/{comment}', 'CommentController@reply')->name('comment.reply');
+    Route::delete('/comment/destroy/{id}', 'CommentController@destroy')->name('comment.destroy');
+    Route::delete('/reply/delete/{id}', 'CommentController@replyDestroy')->name('reply.destroy');
 });
 
 Route::group(['as' => 'author.', 'prefix' => 'author', 'namespace' => 'Author', 'middleware' => ['auth', 'author']], function () {
@@ -46,6 +53,11 @@ Route::group(['as' => 'author.', 'prefix' => 'author', 'namespace' => 'Author', 
     Route::get('/user/{username}/profile', 'ProfileController@profile')->name('profile');
     Route::post('/user/{id}/profile', 'ProfileController@update')->name('profile.update');
     Route::put('/reset-password', 'ProfileController@password')->name('reset-password');
+    Route::get('/comment', 'CommentController@index')->name('comment.index');
+    Route::get('/comment/{id}', 'CommentController@show')->name('comment.show');
+    Route::post('/comment/reply/{comment}', 'CommentController@reply')->name('comment.reply');
+    Route::delete('/comment/destroy/{id}', 'CommentController@destroy')->name('comment.destroy');
+    Route::delete('/reply/delete/{id}', 'CommentController@replyDestroy')->name('reply.destroy');
 });
 
 Auth::routes();

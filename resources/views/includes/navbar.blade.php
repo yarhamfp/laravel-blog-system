@@ -29,10 +29,25 @@
           </div>
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <form action="{{route('search')}}" method="GET" class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" name="query" value="{{isset($search) ? $search : ''}}" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
       </form>
+      <ul class="navbar-nav ml-4">
+        <li class="nav-item">
+          @auth
+          <form action="{{url('logout')}}" method="POST" class="form-inline">
+            @csrf
+            <button class="btn btn-secondary" type="submit">
+                Logout
+            </button>
+          </form>
+          @endauth
+          @guest
+          <a href="{{url('login')}}" class="btn btn-secondary my-2 my-sm-0 text-white">Login</a>
+          @endguest
+        </li>
+      </ul>
     </div>
   </div>
 </nav>

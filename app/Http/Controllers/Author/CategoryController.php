@@ -172,15 +172,19 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        if (Storage::disk('public')->exists('category/' . $category->image)) {
-            Storage::disk('public')->delete('category/' . $category->image);
-        }
+        $category = Category::findOrFail($id);
+        if ($category->posts->count()) {
+            return redirect()->back()->with('error', 'Data category tidak dapat dihapus karena sudah berelasi dengan Post.');
+        } else {
+            if (Storage::disk('public')->exists('category/' . $category->image)) {
+                Storage::disk('public')->delete('category/' . $category->image);
+            }
 
-        if (Storage::disk('public')->exists('category/slider/' . $category->image)) {
-            Storage::disk('public')->delete('category/slider/' . $category->image);
+            if (Storage::disk('public')->exists('category/slider/' . $category->image)) {
+                Storage::disk('public')->delete('category/slider/' . $category->image);
+            }
+            $category->delete();
+            return redirect()->route('author.category.index')->with('sukses', 'Data category berhasil dihapus.');
         }
-        $category->delete();
-        return redirect()->route('author.category.index')->with('sukses', 'Data category berhasil dihapus.');
     }
 }

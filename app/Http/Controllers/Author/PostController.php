@@ -101,7 +101,7 @@ class PostController extends Controller
             $post->status = false;
         }
         $post->is_approved = false;
-        $tags = explode(",", $request->tags);
+        $tags = $request->tags;
 
         $post->save();
         $post->tag($tags);

@@ -182,9 +182,9 @@
   toastr.warning("Warning! {{Session::get('warning')}}")  
   @endif
   @if ($errors->any())
-  @foreach ($errors->all() as $error)
-    toastr.error("Error! {{$error}}")  
-  @endforeach
-@endif
+    @foreach ($errors->all() as $error)
+      toastr.error("Error! {{$error}}")  
+    @endforeach
+  @endif
 </script>
 @endpush

@@ -8,26 +8,23 @@
 
       <!-- Page Heading/Breadcrumbs -->
       <h1 class="mt-4 mb-3">
-        <small>Post dengan Kategori</small> {{$categories->name}}
+        <small>Hasil dari pencarian</small> {{$search}} <span class="badge badge-secondary">{{$posts->count()}}</span>
       </h1>
   
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
           <a href="{{route('home')}}">Home</a>
         </li>
-        <li class="breadcrumb-item">
-          <a href="{{route('category.show')}}">Category</a>
-        </li>
-        <li class="breadcrumb-item active">category-{{$categories->slug}}</li>
+        <li class="breadcrumb-item active">pencarian-{{$search}}</li>
       </ol>
 
-      <header class="mb-4">
+      {{-- <header class="mb-4">
           <div class="carousel-inner" role="listbox">
-            <div class="carousel-item active" style="background-image: url('{{Storage::disk('public')->url('category/'.$categories->image)}}'); height:250px;">
-              <h3 class="carousel-caption">{{$categories->name}}</h3>
+            <div class="carousel-item active" style="background-image: url('http://placehold.it/750x300'); height:250px;">
+              <h3 class="carousel-caption">Search</h3>
             </div>
           </div>
-      </header>
+      </header> --}}
 
       <div class="row">
         @forelse ($posts as $item)
@@ -40,17 +37,18 @@
               </h4>
               <p class="card-text">{!!Str::limit($item->body)!!}</p>
             </div>
-            <div class="card-footer">
-              <a href="{{route('post.category',$categories->slug)}}" class="badge badge-secondary">{{$categories->name}}</a>
+            <div class="card-footer text-muted">
+              Posted on {{$item->created_at->diffForHumans()}} by
+              <a href="#!" class="text-dark"><strong>{{$item->users->name}}</strong></a>
             </div>
           </div>
         </div>
         @empty
           <div class="row mx-auto">
             <div class="col-md-12 mb-4">
-              <h1>Tidak ada hasil untuk category <span class="badge badge-secondary">{{$categories->name}}</span></h1>
+              <h3>Tidak ada hasil untuk Pencarian <span class="badge badge-secondary">{{$search}}</span></h3>
             </div>
-            <a href="{{route('category.show')}}" class="btn btn-primary">Back</a>
+            <a href="{{route('home')}}" class="btn btn-primary">Back</a>
           </div>
         @endforelse
       </div>

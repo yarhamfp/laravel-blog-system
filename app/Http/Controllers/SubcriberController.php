@@ -20,6 +20,6 @@ class SubcriberController extends Controller
         );
         $data = $request->all();
         Subscriber::create($data);
-        return redirect()->back()->with('sukses', 'Anda telah terdaftar sebagai subcriber kami :)');
+        return redirect()->route('home')->with('sukses', 'Anda telah terdaftar sebagai subcriber kami :)');
     }
 }

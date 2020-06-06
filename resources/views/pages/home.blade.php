@@ -6,9 +6,11 @@
 <header>
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
-      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+      @foreach ($slider as $slider)
+      <li data-target="#carouselExampleIndicators" data-slide-to="{{$slider->id}}" class="active"></li>
+      @endforeach
+      {{-- <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> --}}
     </ol>
     <div class="carousel-inner" role="listbox">
       <!-- Slide One - Set the background image for this slide in the line below -->
@@ -56,7 +58,7 @@
           {{-- @foreach ($popular->categories as $category) --}}
           <h6 class="card-subtitle mb-2 text-muted">in {{$popular->categories->first()->name}}</h6>
           {{-- @endforeach --}}
-          <p class="card-text text-muted"><i class="fa fa-eye"></i> {{$popular->view_count}}</p>
+          <p class="card-text text-muted"><i class="fa fa-eye"></i> {{$popular->view_count}} &nbsp; <i class="fa fa-comment"></i> {{$popular->comments->count()}}</p>
         </div>
         <div class="card-footer text-muted">
           Posted on {{Carbon\Carbon::create($popular->created_at->todateTimeString())->timezone('Asia/Jakarta')->format('d F, Y')}} by
@@ -74,14 +76,14 @@
   <h2>Recent Post</h2>
 
   <div class="row">
-    @foreach ($terbaru as $item)
+    @forelse ($terbaru as $item)
     <div class="col-lg-4 mb-4">
       <div class="card h-100 ">
         <img class="card-img-top" src="{{Storage::disk('public')->url('post/thumb/'.$item->image)}}" alt="{{$item->slug}}">
         <div class="card-body">
           <h2 class="card-title">{{$item->title}}</h2>
           <p class="card-text">{!!Str::limit($item->body)!!}</p>
-          <p class="card-text text-muted"><i class="fa fa-eye"></i> {{$item->view_count}} &nbsp; <i class="fa fa-comment"></i> {{$item->view_count}}</p>
+          <p class="card-text text-muted"><i class="fa fa-eye"></i> {{$item->view_count}} &nbsp; <i class="fa fa-comment"></i> {{$item->comments->count()}}</p>
           <a href="{{route('blogpost',$item->slug)}}" class="btn btn-primary">Read More &rarr;</a>
         </div>
         <div class="card-footer text-muted">
@@ -90,7 +92,9 @@
         </div>
       </div>
     </div>
-    @endforeach
+    @empty
+    <p class="bg-secondary">Recent post Kosong, Silahkan admin/author membuat post untuk ditampilkan</p>
+    @endforelse
     
   </div>
   <ul class="pagination justify-content-center">
@@ -103,20 +107,19 @@
   <!-- Features Section -->
   <div class="row">
     <div class="col-lg-6">
-      <h2>Modern Business Features</h2>
-      <p>The Modern Business template by Start Bootstrap includes:</p>
+      <h2>Bergabung dengan Kami!</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit:</p>
       <ul>
         <li>
-          <strong>Bootstrap v4</strong>
+          <strong>Bootstrap 4</strong>
         </li>
         <li>jQuery</li>
         <li>Font Awesome</li>
         <li>Working contact form with validation</li>
         <li>Unstyled page elements for easy customization</li>
       </ul>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis, omnis doloremque non cum id
-        reprehenderit, quisquam totam aspernatur tempora minima unde aliquid ea culpa sunt. Reiciendis quia dolorum
-        ducimus unde.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti
+        beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
     </div>
     <div class="col-lg-6">
       <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
@@ -129,11 +132,12 @@
   <!-- Call to Action Section -->
   <div class="row mb-4">
     <div class="col-md-8">
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti
-        beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
+      <p>Anda mempunyai hobi menulis dan anda ingin membagikan pemikiran anda kepada publik?
+        Ayo bergabung dengan kami!
+      </p>
     </div>
     <div class="col-md-4">
-      <a class="btn btn-lg btn-secondary btn-block" href="#">Call to Action</a>
+      <a class="btn btn-lg btn-secondary btn-block" href="{{url('register')}}">JOIN US</a>
     </div>
   </div>
 
@@ -155,6 +159,11 @@
   @endif
   @if(Session::has('warning'))
   toastr.warning("Warning! {{Session::get('warning')}}")  
+  @endif
+  @if ($errors->any())
+    @foreach ($errors->all() as $error)
+      toastr.error("warning! {{$error}}")  
+    @endforeach
   @endif
 </script>
 @endpush

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Post;
+use App\ViewPage;
 use Conner\Tagging\Model\Tag;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -19,16 +21,16 @@ class HomeController extends Controller
     {
         $categori1 = Category::first();
         $slug = $categori1->slug;
-        $categories = Category::where('slug', '!=', $slug)->take(2)->get();
-        $terbaru = Post::where([
-            ['is_approved', true], ['status', true]
-        ])->latest()->paginate(6);
-        $popularPost = Post::orderBy('view_count', 'DESC')->limit(6)->get();
+        $categories = Category::where('slug', '!=', $slug)->inRandomOrder()->get();
+        $slider_indikator = Category::all();
+        $terbaru = Post::latest()->approved()->published()->paginate(6);
+        $popularPost = Post::where('view_count', '>', '10')->published()->approved()->orderBy('view_count', 'DESC')->limit(6)->get();
         // dd($slug);
         return view('pages.home', [
             'categori1' => $categori1,
             'categories' => $categories,
             'terbaru'   => $terbaru,
+            'slider'    => $slider_indikator,
             'popularPost'   => $popularPost
         ]);
     }

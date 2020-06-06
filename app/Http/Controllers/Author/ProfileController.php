@@ -17,7 +17,7 @@ class ProfileController extends Controller
     public function profile($username)
     {
 
-        $user = User::where('username', $username)->first();
+        $user = User::where('username', $username)->firstOrFail();
         if ($user->id != Auth::id()) {
             return redirect()->back()->with('error', 'Kamu tidak mempunyai hak untuk melihat akses milik orang lain!');
         }
@@ -28,7 +28,7 @@ class ProfileController extends Controller
 
     public function update(Request $request, $id)
     {
-        $role = User::find($id);
+        $role = User::findOrFail($id);
         if ($role->id != Auth::id()) {
             return redirect()->back()->with('error', 'Kamu dilarang mengedit data pribadi milik orang lain!');
         } else {
@@ -62,7 +62,7 @@ class ProfileController extends Controller
             $user->image = $imageName;
             $user->about = $request->about;
             $user->save();
-            return redirect()->back()->with('sukses', 'Data User berhasil diUpdate');
+            return redirect()->route('author.dashboard')->with('sukses', 'Data User berhasil diUpdate');
         }
     }
 
@@ -78,7 +78,7 @@ class ProfileController extends Controller
         $hashedPassword = Auth::user()->password;
         if (Hash::check($request->old_password, $hashedPassword)) {
             if (!Hash::check($request->password, $hashedPassword)) {
-                $user = User::find(Auth::id());
+                $user = User::findOrFail(Auth::id());
                 $user->password = Hash::make($request->password);
                 $user->save();
                 Auth::logout();

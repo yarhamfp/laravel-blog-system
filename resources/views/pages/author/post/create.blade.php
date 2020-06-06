@@ -94,14 +94,15 @@
           <div class="card-body" style="height: 400px;">
               <div class="sbp-preview">
                 <div class="sbp-preview-content">
-                    <div class="form-group ">
-                      <label for="tag">Pilih Tag *</label> <br>
-                      <span class="text-muted">Ketik dan enter untuk membuat tag</span>
-                      <input type="text" data-role="tagsinput" class="form-control" name="tags" placeholder="create tag..">
-                      @if ($errors->has('tags'))
-                      <span class="text-danger">{{$errors->first('tags')}}</span>
-                      @endif
-                    </div>
+                  <div class="form-group ">
+                    <label for="tag">Pilih Tag *</label> <br>
+                    <span class="text-muted">Ketik dan enter untuk membuat tag</span>
+                    <select class="form-control" name="tags[]" id="tags" multiple="multiple">
+                    </select>
+                    @if ($errors->has('tags'))
+                    <span class="text-danger">{{$errors->first('tags')}}</span>
+                    @endif
+                  </div>
                 </div>
               </div>
           </div>
@@ -140,6 +141,7 @@
 <link rel="stylesheet" href="{{url('bootstrap-select/dist/css/bootstrap-select.min.css')}}">
 <script src="{{ url('ckeditor/ckeditor.js')}}"></script>
 <link rel="stylesheet" href="{{url('tagsinput/tagsinput.css')}}">
+<link href="{{url('select2/dist/css/select2.min.css')}}" rel="stylesheet" />
 @endpush
 
 @push('prepend-script')
@@ -148,8 +150,12 @@
 <script src="{{ url('backend/assets/demo/datatables-demo.js') }}"></script>
 <script src="{{url('bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
 <script src="{{url('tagsinput/tagsinput.js')}}"></script>
+<script src="{{url('select2/dist/js/select2.min.js')}}"></script>
 <script>
   $('.my-select').selectpicker();
+  $("#tags").select2({
+  tags: true
+});
 </script>
 <script>
   CKEDITOR.replace( 'body' );

@@ -32,4 +32,9 @@ class Post extends Model
     {
         return $query->where('status', 1);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'post_id', 'id');
+    }
 }

@@ -34,7 +34,7 @@
             <div class="collapse" id="collapseDashboards" data-parent="#accordionSidenav">
                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
                     <a class="nav-link" href="{{route('admin.post.index')}}">Posts  <span class="badge badge-primary ml-2">New!</span></a>
-                    <a class="nav-link" href="#">Comment</a>
+                    <a class="nav-link" href="{{route('admin.comment.index')}}">Comment</a>
                     <a class="nav-link" href="#">Favorit</a>
                 </nav>
             </div>
@@ -113,7 +113,7 @@
             <div class="collapse" id="collapseDashboards" data-parent="#accordionSidenav">
                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
                     <a class="nav-link" href="{{route('author.post.index')}}">Posts  <span class="badge badge-primary ml-2">New!</span></a>
-                    <a class="nav-link" href="#">Comment</a>
+                    <a class="nav-link" href="{{route('author.comment.index')}}">Comment</a>
                     <a class="nav-link" href="#">Favorit</a>
                 </nav>
             </div>
