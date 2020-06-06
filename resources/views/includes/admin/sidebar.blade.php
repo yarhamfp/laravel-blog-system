@@ -69,12 +69,6 @@
                 </div>
                 Users
             </a>
-            <a class="nav-link" href="#!">
-                <div class="nav-link-icon">
-                    <i class="fa fa-wrench"></i>
-                </div>
-                Settings
-            </a>
     </div>
     @endif
     {{-- end sidebar admin --}}
