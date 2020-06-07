@@ -6,7 +6,6 @@ use App\Category;
 use App\Http\Controllers\Controller;
 use App\Notifications\NewAuthorPost;
 use App\Post;
-use App\Tag;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -48,9 +47,7 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $tags = Tag::all();
         return view('pages.author.post.create', [
-            'tags' => $tags,
             'categories' => $categories
         ]);
     }
@@ -140,11 +137,9 @@ class PostController extends Controller
         if ($post->user_id != Auth::id()) {
             return redirect()->back()->with('error', 'Kamu tidak mempunyai hak untuk mengedit akses milik orang lain!');
         }
-        $tags = Tag::all();
         $categories = Category::all();
         return view('pages.author.post.edit', [
             'post' => $post,
-            'tags' => $tags,
             'categories' => $categories
         ]);
     }

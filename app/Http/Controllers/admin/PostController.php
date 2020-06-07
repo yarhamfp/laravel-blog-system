@@ -9,7 +9,6 @@ use App\Notifications\NewAuthorPost;
 use App\Notifications\NewPostNotify;
 use App\Post;
 use App\Subscriber;
-use App\Tag;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,9 +40,7 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        $tags = Tag::all();
         return view('pages.admin.post.create', [
-            'tags' => $tags,
             'categories' => $categories
         ]);
     }
@@ -162,11 +159,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $tags = Tag::all();
         $categories = Category::all();
         return view('pages.admin.post.edit', [
             'post' => $post,
-            'tags' => $tags,
             'categories' => $categories
         ]);
     }
