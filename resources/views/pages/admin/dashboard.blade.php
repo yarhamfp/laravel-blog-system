@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-    BakeBlog | Dashboard
+    {{App\Setting::first()->name.App\Setting::first()->subname}} | Dashboards
 @endsection
 @section('content')
 <div class="container-fluid mt-5">
@@ -230,9 +230,20 @@
     </div>
 </div>
 @endsection
-
+@push('prepend-style')
+<link href="{{ url('toastr/build/toastr.css')}}" rel="stylesheet"/>
+@endpush
 @push('prepend-script')
-<script src="{{ url('backend/cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js') }}" crossorigin="anonymous"></script>
-<script src="{{ url('backend/assets/demo/chart-area-demo.js') }}"></script>
-<script src="{{ url('backend/assets/demo/chart-bar-demo.js') }}"></script>
+<script src="{{ url('toastr/toastr.js')}}"></script>
+<script>
+  @if(Session::has('sukses'))
+  toastr.success("Sukses! {{Session::get('sukses')}}");  
+  @endif
+  @if(Session::has('error'))
+  toastr.error("Error! {{Session::get('error')}}")  
+  @endif
+  @if(Session::has('warning'))
+  toastr.warning("Warning! {{Session::get('warning')}}")  
+  @endif
+</script>
 @endpush

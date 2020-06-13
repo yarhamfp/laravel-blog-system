@@ -43,6 +43,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin', 'namespace' => 'Admin', 'mi
     Route::post('/comment/reply/{comment}', 'CommentController@reply')->name('comment.reply');
     Route::delete('/comment/destroy/{id}', 'CommentController@destroy')->name('comment.destroy');
     Route::delete('/reply/delete/{id}', 'CommentController@replyDestroy')->name('reply.destroy');
+    Route::get('/setting/{id}', 'SettingController@index')->name('setting');
+    Route::post('/setting/{id}', 'SettingController@update')->name('setting.update');
 });
 
 Route::group(['as' => 'author.', 'prefix' => 'author', 'namespace' => 'Author', 'middleware' => ['auth', 'author']], function () {

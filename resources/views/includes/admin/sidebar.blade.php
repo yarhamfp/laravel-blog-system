@@ -31,18 +31,17 @@
                     <i class="fas fa-angle-down"></i>
                     </div>
             </a>
-            <div class="collapse" id="collapseDashboards" data-parent="#accordionSidenav">
+            <div class="collapse {{Request::is('admin/post*') || Request::is('admin/comment*') ? 'show' : ''}}" id="collapseDashboards" data-parent="#accordionSidenav">
                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-                    <a class="nav-link" href="{{route('admin.post.index')}}">Posts  <span class="badge badge-primary ml-2">New!</span></a>
-                    <a class="nav-link" href="{{route('admin.comment.index')}}">Comment</a>
-                    <a class="nav-link" href="#">Favorit</a>
+                    <a class="nav-link {{Request::is('admin/post*') ? 'active' : ''}}" href="{{route('admin.post.index')}}">Posts  <span class="badge badge-primary ml-2">New!</span></a>
+                    <a class="nav-link {{Request::is('admin/comment*') ? 'active' : ''}}" href="{{route('admin.comment.index')}}">Comment</a>
                 </nav>
             </div>
             <a class="nav-link" href="{{route('admin.post.pending')}}">
                 <div class="nav-link-icon">
                     <i data-feather="clock"></i>
                 </div>
-                Posts Pending
+                Pending Post
             </a>
             <a class="nav-link" href="{{route('admin.tag.index')}}">
                 <div class="nav-link-icon">
@@ -68,6 +67,12 @@
                     <i class="fa fa-users"></i>
                 </div>
                 Users
+            </a>
+            <a class="nav-link" href="{{route('admin.setting',App\Setting::first()->slug)}}">
+                <div class="nav-link-icon">
+                    <i class="fa fa-wrench"></i>
+                </div>
+                {{App\Setting::first()->name ? "Settings" : "Settings"}}
             </a>
     </div>
     @endif
@@ -104,11 +109,10 @@
                     <i class="fas fa-angle-down"></i>
                     </div>
             </a>
-            <div class="collapse" id="collapseDashboards" data-parent="#accordionSidenav">
+            <div class="collapse {{Request::is('author/post*') || Request::is('author/comment*') ? 'show' : ''}}" id="collapseDashboards" data-parent="#accordionSidenav">
                 <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
-                    <a class="nav-link" href="{{route('author.post.index')}}">Posts  <span class="badge badge-primary ml-2">New!</span></a>
-                    <a class="nav-link" href="{{route('author.comment.index')}}">Comment</a>
-                    <a class="nav-link" href="#">Favorit</a>
+                    <a class="nav-link {{Request::is('author/post*') ? 'active' : ''}}" href="{{route('author.post.index')}}">Posts  <span class="badge badge-primary ml-2">New!</span></a>
+                    <a class="nav-link {{Request::is('author/comment*') ? 'active' : ''}}" href="{{route('author.comment.index')}}">Comment</a>
                 </nav>
             </div>
             <a class="nav-link" href="{{route('author.post.pending')}}">

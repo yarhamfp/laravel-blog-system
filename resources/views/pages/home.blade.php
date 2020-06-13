@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Home
+{{App\Setting::first()->name.App\Setting::first()->subname}}
 @endsection
 @section('content')
 <header>

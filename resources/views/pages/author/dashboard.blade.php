@@ -1,6 +1,6 @@
 @extends('layouts.author')
 @section('title')
-    BakeBlog | Dashboard
+{{App\Setting::first()->name.App\Setting::first()->subname}} | Dashboards
 @endsection
 @section('content')
 <div class="container-fluid mt-5">

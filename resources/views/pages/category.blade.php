@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-  Categories 
+{{App\Setting::first()->name.App\Setting::first()->subname}} | Kategori 
 @endsection
 @section('content')
     <!-- Page Content -->

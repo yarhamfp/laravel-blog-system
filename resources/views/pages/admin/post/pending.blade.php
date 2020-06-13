@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-  Post | BakeBlog
+{{App\Setting::first()->name.App\Setting::first()->subname}} | Pending Post
 @endsection
 @section('content')
 <div class="page-header pb-10 page-header-dark bg-gradient-primary-to-secondary bg-img-repeat" style="background-image: url('{{ url('backend/assets/img/pattern-shapes.png')}}');">

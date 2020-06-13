@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-  Blog Post
+{{App\Setting::first()->name.App\Setting::first()->subname}} | Posts
 @endsection
 @section('content')
   <!-- Page Content -->

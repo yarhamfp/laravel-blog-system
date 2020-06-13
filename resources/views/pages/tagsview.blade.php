@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Hasil Tag
+{{App\Setting::first()->name.App\Setting::first()->subname}} | Tag {{$tag->name}}
 @endsection
 @section('content')
     <!-- Page Content -->

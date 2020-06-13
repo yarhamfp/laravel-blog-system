@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('title')
-  User | BakeBlog
+{{App\Setting::first()->name.App\Setting::first()->subname}} | Profile
 @endsection
 @section('content')
 <div class="page-header pb-10 page-header-dark bg-gradient-primary-to-secondary bg-img-repeat" style="background-image: url('{{ url('backend/assets/img/pattern-shapes.png')}}');">
